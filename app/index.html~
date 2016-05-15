@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<!--
+This is an app that demonstrates how to control an Arduino101 board
+using BLE (Bluetooth Low Energy).
+-->
+<head>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no
+		initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+
+	<title>Arduino101 LED On/Off BLE</title>
+
+	<style>
+		@import 'ui/css/evothings-app.css';
+	</style>
+
+	<script>
+	// Redirect console.log to Evothings Workbench.
+	if (window.hyper && window.hyper.log) { console.log = hyper.log }
+	window.onerror = function(msg, url, line)
+	{
+		console.log(msg + ": " + url + ":" + line);
+	};
+	</script>
+
+	<script src="cordova.js"></script>
+	<script src="libs/jquery/jquery.js"></script>
+	<script src="libs/evothings/evothings.js"></script>
+	<script src="libs/evothings/ui/ui.js"></script>
+	<script src="libs/evothings/arduinoble/arduinoble.js"></script>
+
+</head>
+
+<body ontouchstart=""><!-- ontouchstart="" enables low-delay CSS transitions. -->
+
+	<header>
+		<button class="back" onclick="history.back()">
+			<img src="ui/images/arrow-left.svg" />
+		</button>
+
+		<img class="logotype" src="ui/images/logo.svg" alt="Evothings" />
+
+		<!--<button class="menu" onclick=""><img src="ui/images/menu.svg" /></button>-->
+	</header>
+
+	<h1>Arduino101 LED On/Off BLE</h1>
+
+	<p id="info">Initializing...</p>
+
+	<button class="yellow wide" onclick="app.connect()">CONNECT</button>
+
+	<br />
+
+	<button class="green half" onclick="app.ledAOn()">LED A ON</button>
+
+	<button class="red half" onclick="app.ledAOff()">LED A OFF</button>
+
+	<br />
+
+	<button class="green half" onclick="app.ledBOn()">LED B ON</button>
+
+	<button class="red half" onclick="app.ledBOff()">LED B OFF</button>
+
+	<br />
+
+	<button class="red wide big" onclick="app.ledAllOff()">ALL LED OFF</button>
+
+	<script>
+	// Application object.
+	var app = {}
+
+	// Connected device.
+	app.device = null;
+
+	// Turn on LED A.
+	app.ledAOn = function()
+	{
+		app.device && app.device.writeDataArray(new Uint8Array([00010001]), '19B10000-E8F2-537E-4F6C-D104768A1214');
+	}
+
+	// Turn off LED A.
+	app.ledAOff = function()
+	{
+		app.device && app.device.writeDataArray(new Uint8Array([00010000]), '19B10000-E8F2-537E-4F6C-D104768A1214');
+	}
+
+	// Turn on LED B.
+	app.ledBOn = function()
+	{
+		app.device && app.device.writeDataArray(new Uint8Array([00020001]), '19B10000-E8F2-537E-4F6C-D104768A1214');
+	}
+
+	// Turn off LED B.
+	app.ledBOff = function()
+	{
+		app.device && app.device.writeDataArray(new Uint8Array([00020000]), '19B10000-E8F2-537E-4F6C-D104768A1214');
+	}
+
+	// Turn off All LED.
+	app.ledAllOff = function()
+	{
+		app.device && app.device.writeDataArray(new Uint8Array([0]), '19B10000-E8F2-537E-4F6C-D104768A1214');
+	}
+
+	app.showMessage = function(info)
+	{
+		document.getElementById('info').innerHTML = info
+	};
+
+	// Called when BLE and other native functions are available.
+	app.onDeviceReady = function()
+	{
+		app.showMessage('Touch the connect button to begin.');
+	};
+
+	app.connect = function()
+	{
+		evothings.arduinoble.close();
+		app.showMessage('Connecting...');
+
+		evothings.arduinoble.connect(
+			'LED', // Advertised name of BLE device.
+			function(device)
+			{
+				app.device = device;
+				app.showMessage('Connected! Touch buttons to turn LED on/off.');
+			},
+			function(errorCode)
+			{
+				app.showMessage('Connect error: ' + errorCode + '.');
+			});
+	};
+
+	document.addEventListener(
+		'deviceready',
+		function() { evothings.scriptsLoaded(app.onDeviceReady) },
+		false);
+	</script>
+
+</body>
+
+</html>
