@@ -1,0 +1,36 @@
+{
+  "name": "LED_Altstadt",
+  "version": "1.0.0",
+  "title": "LED Altstadt",
+  "description": "Simple app to control LEDs with an Arduino using Bluetooth Low Energy (BLE).",
+  "tags": [
+    {
+      "label": "arduino",
+      "type": "platform"
+    },
+    {
+      "label": "ble",
+      "type": "comm"
+    }
+  ],
+  "libraries": [
+    {
+      "name": "jquery",
+      "version": "2.1.1"
+    }
+  ],
+  "plugins": [
+    {
+      "name": "cordova-plugin-ble",
+      "version": "2.0.0"
+    }
+  ],
+  "index-file": "index.html",
+  "app-dir": "app",
+  "uuid": "19B10000-E8F2-537E-4F6C-D104768A1214",
+  "icon": "app-icon.png",
+  "doc-url": "http://evothings.com/2.2/doc/examples/arduino-led-onoff-ble.html",
+  "long-description": "Simple app to control LEDs with an Arduino using Bluetooth Low Energy (BLE).",
+  "cordova-id": "com.evothings.examples.arduinoledonoffble"
+}
+
