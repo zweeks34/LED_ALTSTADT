@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
 <!--
-This is an app that demonstrates how to control an Arduino101 board
-using BLE (Bluetooth Low Energy).
+Simple app to control LEDs with an Arduino using Bluetooth Low Energy (BLE).
 -->
 <head>
 
@@ -10,7 +9,7 @@ using BLE (Bluetooth Low Energy).
 	<meta name="viewport" content="width=device-width, user-scalable=no
 		initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
 
-	<title>Arduino101 LED On/Off BLE</title>
+	<title>LED Altstadt</title>
 
 	<style>
 		@import 'ui/css/evothings-app.css';
@@ -45,11 +44,15 @@ using BLE (Bluetooth Low Energy).
 		<!--<button class="menu" onclick=""><img src="ui/images/menu.svg" /></button>-->
 	</header>
 
-	<h1>Arduino101 LED On/Off BLE</h1>
+	<h1>LED Altstadt</h1>
 
 	<p id="info">Initializing...</p>
 
-	<button class="yellow wide" onclick="app.connect()">CONNECT</button>
+	<button class="yellow wide big" onclick="app.connect()">CONNECT</button>
+
+	<br />
+
+	<button class="green wide big" onclick="app.ledAllOn()">ALL LED ON</button>
 
 	<br />
 
@@ -96,6 +99,13 @@ using BLE (Bluetooth Low Energy).
 	app.ledBOff = function()
 	{
 		app.device && app.device.writeDataArray(new Uint8Array([0020]), '19B10000-E8F2-537E-4F6C-D104768A1214');
+	}
+	
+	// Turn on All LED
+	app.ledAllOn = function()
+	{
+		app.device && app.device.writeDataArray(new Uint8Array([0011]), '19B10000-E8F2-537E-4F6C-D104768A1214');
+		app.device && app.device.writeDataArray(new Uint8Array([0021]), '19B10000-E8F2-537E-4F6C-D104768A1214');
 	}
 
 	// Turn off All LED.
